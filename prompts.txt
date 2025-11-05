@@ -1,0 +1,185 @@
+##using this as text to copy paste for my ppt demo, make it better for me to understand and copy paste when needed , suggets proper format for info 
+
+
+ 
+/**
+ * generate a sample array of numbers
+ * Calculates the average of a list of numbers
+ * @param numbers - Array of numbers to calculate average from
+ * @returns The average of the input numbers
+ * 
+ * also write this in js and java both in same file 
+ */
+
+
+
+ 
+// =============================================================================
+// ZERO-SHOT LEARNING EXAMPLES
+// =============================================================================
+
+/**
+ * ZERO-SHOT EXAMPLE 1: Data Processing
+ * Prompt: Create a function to calculate the average of an array of numbers
+ */
+
+
+// =============================================================================
+// ONE-SHOT LEARNING EXAMPLES
+// =============================================================================
+
+/**
+ * ONE-SHOT EXAMPLE 2: Data Transformation
+ * Example transformation provided, then similar transformations requested
+ */
+
+// Example transformation:
+interface User {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+}
+
+function transformUserForApi(user: User): any {
+    return {
+        user_id: user.id,
+        first_name: user.firstName,
+        last_name: user.lastName,
+        email_address: user.email
+    };
+}
+
+// Prompt: Create similar transformation for Product
+
+// =============================================================================
+// MULTI-SHOT LEARNING EXAMPLES
+// =============================================================================
+
+/**
+ * MULTI-SHOT EXAMPLE 2: Validation Functions with Complex Patterns
+ * Multiple validation examples to establish comprehensive validation patterns
+ */
+
+// Example 1: Password validation
+function validatePassword(password: string): { valid: boolean; errors: string[] } {
+    const errors: string[] = [];
+    
+    if (password.length < 8) {
+        errors.push("Password must be at least 8 characters long");
+    }
+    if (!/[A-Z]/.test(password)) {
+        errors.push("Password must contain at least one uppercase letter");
+    }
+    if (!/[a-z]/.test(password)) {
+        errors.push("Password must contain at least one lowercase letter");
+    }
+    if (!/\d/.test(password)) {
+        errors.push("Password must contain at least one number");
+    }
+    
+    return { valid: errors.length === 0, errors };
+}
+
+// Example 2: Username validation
+function validateUsername(username: string): { valid: boolean; errors: string[] } {
+    const errors: string[] = [];
+    
+    if (username.length < 3) {
+        errors.push("Username must be at least 3 characters long");
+    }
+    if (username.length > 20) {
+        errors.push("Username must be no more than 20 characters long");
+    }
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+        errors.push("Username can only contain letters, numbers, and underscores");
+    }
+    
+    return { valid: errors.length === 0, errors };
+}
+
+// Example 3: Phone number validation
+function validatePhoneNumber(phone: string): { valid: boolean; errors: string[] } {
+    const errors: string[] = [];
+    
+    const cleanPhone = phone.replace(/\D/g, '');
+    
+    if (cleanPhone.length !== 10) {
+        errors.push("Phone number must be exactly 10 digits");
+    }
+    if (!/^[2-9]/.test(cleanPhone)) {
+        errors.push("Phone number must start with a digit between 2-9");
+    }
+    
+    return { valid: errors.length === 0, errors };
+}
+
+// Prompt: Create similar validation for credit card numbers
+// function validateCreditCard(cardNumber: string): { valid: boolean; errors: string[] } {
+//     // Copilot should follow the established validation pattern with:
+//     // - errors array initialization
+//     // - multiple validation checks
+//     // - return object with valid boolean and errors array
+// }
+
+// Prompt: Create similar validation for postal codes
+// function validatePostalCode(postalCode: string): { valid: boolean; errors: string[] } {
+//     // Copilot should follow the same pattern
+// }
+
+/**
+ * MULTI-SHOT EXAMPLE 3: Error Handling Patterns
+ * Multiple error handling examples to establish consistent error management
+ */
+
+// Example 1: API call with error handling
+async function fetchUserData(userId: string): Promise<{ data?: any; error?: string }> {
+    try {
+        const response = await fetch(`/api/users/${userId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return { data };
+    } catch (error) {
+        return { error: error instanceof Error ? error.message : 'Unknown error occurred' };
+    }
+}
+
+// Example 2: Database operation with error handling
+async function saveUserToDatabase(user: User): Promise<{ success: boolean; error?: string; id?: number }> {
+    try {
+        // Simulated database save
+        const result = await mockDatabaseSave(user);
+        return { success: true, id: result.id };
+    } catch (error) {
+        return { 
+            success: false, 
+            error: error instanceof Error ? error.message : 'Database save failed' 
+        };
+    }
+}
+
+// Example 3: File operation with error handling
+async function readConfigFile(filePath: string): Promise<{ config?: any; error?: string }> {
+    try {
+        // Simulated file read
+        const content = await mockFileRead(filePath);
+        const config = JSON.parse(content);
+        return { config };
+    } catch (error) {
+        return { 
+            error: error instanceof Error ? error.message : 'Failed to read configuration file' 
+        };
+    }
+}
+
+// Prompt: Create similar error handling for email sending
+// async function sendEmail(to: string, subject: string, body: string): Promise<{ sent: boolean; error?: string; messageId?: string }> {
+//     // Copilot should follow the established error handling pattern
+// }
+
+// Prompt: Create similar error handling for image upload
+// async function uploadImage(file: File): Promise<{ uploaded: boolean; error?: string; url?: string }> {
+//     // Copilot should follow the same pattern
+// }
