@@ -12,7 +12,8 @@ Scope
 Before using Copilot
 
 1. Pull the latest changes and work on a feature branch: git pull origin main && git checkout -b feat/your-feature
-2. Run the project's linters and tests locally (if present) so you know the current baseline.
+2. Install dependencies (pnpm is used here): pnpm install
+3. Run the project's linters and tests locally (if present) so you know the current baseline.
 
 Prompting Copilot (recommended patterns)
 
@@ -59,9 +60,61 @@ When to avoid Copilot
 - Complex security-related code (authentication, authorization, encryption) should be hand-written and reviewed by experienced maintainers.
 - Critical algorithmic code where correctness is essential should have human authorship and strong tests.
 
+Repository structure (top-level)
+
+The civic-lens repository is organized as follows. Use these paths when prompting Copilot to give it clear context.
+
+- .gitignore — Git ignore rules for the project.
+- AGENTS_EXPLAINED.md — Detailed explanations of the agents used in the project.
+- AGENTS_VISUAL_GUIDE.md — Visual guide for agents and flows.
+- ARCHITECTURE.md — High-level architecture and component interactions.
+- AUDIT.md — Audit notes and findings.
+- AZURE_MIGRATION_GUIDE.md — Notes and steps for Azure migration.
+- App.tsx — Main React app entry/source file.
+- GETTING_STARTED.md — Quick start instructions for contributors.
+- NEXT_STEPS.md — Suggested next steps and roadmap pointers.
+- QUERY_FLOWS.md — Documentation of query flows used by the system.
+- README.md — Minimal repository README.
+- SETUP_GEMINI_API.md — Instructions for configuring Gemini API access.
+- agents/ — Directory for agent definitions and related code.
+- components/ — UI components used by the application.
+- copilot-instructions.md — This file (guidelines for Copilot usage).
+- data/ — Static or example data used by the app.
+- hooks/ — React hooks shared across the codebase.
+- index.html — Static HTML shell for the web app.
+- index.tsx — React application bootstrap.
+- metadata.json — Small metadata file for the project.
+- package.json — Project manifest and scripts.
+- pnpm-lock.yaml — pnpm lockfile (use pnpm to install exact deps).
+- prompts.txt — Helpful prompts and templates used in the project.
+- services/ — Backend or integration services code (if present).
+- test.txt — Placeholder/test file at repository root.
+- tsconfig.json — TypeScript configuration.
+- types.ts — Shared TypeScript type definitions.
+- utils/ — Utility functions and helpers.
+- vite.config.ts — Vite configuration for development/build.
+
+Notes on why this matters
+
+- When you include a precise path (for example, components/header/Header.tsx) in your Copilot prompt, Copilot can produce context-aware suggestions that match the file's imports, types, and project patterns.
+- The repository uses TypeScript and Vite; favor TypeScript-aware prompts and type annotations.
+- The presence of pnpm-lock.yaml indicates pinning of dependencies; prefer pnpm install in developer instructions.
+
+Examples of repository-specific prompts
+
+- "In components/Header/Header.tsx, add a new SearchBar component that accepts a query string prop and calls onSearch(query) when submitted. Use existing styles and types from types.ts. Add unit tests."
+- "In services/analytics.ts, implement an event logger function logEvent(eventName: string, payload: Record<string, unknown>) that sends events to the configured analytics endpoint. Include types and error handling."
+
+Appendix — quick checklist for AI-assisted changes
+
+- Run linters and type checks: pnpm lint && pnpm build or pnpm -w build (depending on scripts).
+- Run tests: pnpm test or pnpm -w test.
+- Ensure new code is covered by unit tests where reasonable.
+- Keep PRs small and focused; reviewers should verify edge cases.
+
 Support
 
-- If you run into unclear suggestions or unsafe code from Copilot, discuss it on the repo's issues or reach out to the maintainers via the preferred contact channel.
+- If you run into unclear suggestions or unsafe code from Copilot, open an issue in this repository describing the suggestion and the concern. Maintainers will assist.
 
 Acknowledgements
 
