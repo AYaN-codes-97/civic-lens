@@ -23,7 +23,7 @@ export const IssueDetailsCard: React.FC<IssueDetailsCardProps> = ({ issue, onClo
                             <button onClick={onClose} className="win95-control-btn">×</button>
                         </div>
                     </div>
-                    <div className="p-4 overflow-y-auto bg-c0c0c0" style={{ background: '#c0c0c0' }}>
+                    <div className="p-4 overflow-y-auto" style={{ background: '#c0c0c0' }}>
                         <div className="mb-3">
                             <p className="text-xs mb-2"><strong>Category:</strong> {issue.category}</p>
                             <p className="text-xs mb-3">{issue.description}</p>
