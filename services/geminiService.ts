@@ -6,13 +6,30 @@ import { createEmailDraftRequest } from "../agents/emailAgent";
 import { createSuggestionRequest } from "../agents/suggestionAgent";
 
 // Fix: Initialize the GoogleGenAI client with the API key from environment variables.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+// Handle missing API key gracefully to prevent app crashes
+let ai: GoogleGenAI | null = null;
+const apiKey = process.env.API_KEY;
+
+// Only initialize if we have a valid API key
+if (apiKey && apiKey.length > 0 && apiKey !== 'undefined') {
+    try {
+        ai = new GoogleGenAI({ apiKey });
+    } catch (error) {
+        console.warn('GoogleGenAI initialization failed. AI features will be disabled.', error);
+        ai = null;
+    }
+} else {
+    console.info('No Gemini API key configured. AI features will use fallback responses.');
+}
 
 export const getAIResponseForIssue = async (
     issue: Issue,
     chatHistory: ChatMessage[],
     userQuery: string
 ): Promise<string> => {
+    if (!ai) {
+        return "AI features require an API key. Please configure your Gemini API key.";
+    }
     try {
         const prompt = createChatPrompt(issue, chatHistory, userQuery);
         // Fix: Call the generateContent method with the correct model and contents.
@@ -35,6 +52,13 @@ interface EmailData {
 }
 
 export const draftEmailToOfficial = async (issue: Issue): Promise<EmailData> => {
+    if (!ai) {
+        return {
+            to: 'city.official@example.com',
+            subject: `Regarding Issue: ${issue.title}`,
+            body: 'AI email drafting requires an API key. Please describe the issue manually.'
+        };
+    }
     try {
         const request = createEmailDraftRequest(issue);
         // Fix: Call the generateContent method with the model, contents, and JSON config.
@@ -58,6 +82,12 @@ export const draftEmailToOfficial = async (issue: Issue): Promise<EmailData> => 
 export const getNearbySuggestions = async (
     location: GeolocationCoordinates
 ): Promise<{ suggestions: string[], groundingChunks: GroundingChunk[] }> => {
+    if (!ai) {
+        return { 
+            suggestions: ['Potholes on roads', 'Broken or flickering streetlights', 'Overfilled public trash cans'], 
+            groundingChunks: [] 
+        };
+    }
     try {
         const request = createSuggestionRequest(location);
         // Fix: Call generateContent with Google Maps grounding tool configuration.
