@@ -2,7 +2,7 @@
 
 > An AR-powered civic engagement platform that empowers residents to report, discuss, and take action on local community issues using AI-assisted tools.
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.2-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19.2-61dafb.svg)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.2-646cff.svg)](https://vitejs.dev/)
 [![Google Gemini](https://img.shields.io/badge/Google%20Gemini-AI-orange.svg)](https://ai.google.dev/)
@@ -121,7 +121,7 @@ Before you begin, ensure you have the following installed:
    npm run dev
    ```
 
-   The application will open at `http://localhost:5173` (or another port if 5173 is busy).
+   The application will open at `http://localhost:3000`.
 
 5. **Grant location permissions**
 
@@ -204,7 +204,7 @@ In the project directory, you can run:
 
 Starts the development server with hot module replacement (HMR).
 
-- Opens at `http://localhost:5173`
+- Opens at `http://localhost:3000`
 - Auto-reloads when you make changes
 - Shows helpful error messages in the browser
 
