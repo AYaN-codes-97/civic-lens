@@ -2,7 +2,19 @@
 import { Type, GoogleGenAI, GenerateContentResponse } from '@google/genai';
 import type { AnalyzedIssueData } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+// Handle missing API key gracefully to prevent app crashes
+let ai: GoogleGenAI | null = null;
+const apiKey = process.env.API_KEY;
+
+// Only initialize if we have a valid API key
+if (apiKey && apiKey.length > 0 && apiKey !== 'undefined') {
+    try {
+        ai = new GoogleGenAI({ apiKey });
+    } catch (error) {
+        console.warn('GoogleGenAI initialization failed in formFillerAgent. AI features will be disabled.', error);
+        ai = null;
+    }
+}
 
 const FORM_FILL_MODEL = 'gemini-2.5-flash';
 
@@ -30,6 +42,10 @@ const issueSchema = {
 export const analyzeMediaAndSuggestDetails = async (
     media: { mimeType: string; data: string }
 ): Promise<AnalyzedIssueData> => {
+    if (!ai) {
+        throw new Error("AI features require an API key. Please configure your Gemini API key.");
+    }
+    
     const prompt = `
         You are an AI assistant for a civic engagement app called "Civic Lens".
         Your task is to analyze the provided media (image or video) of a local issue and generate a structured report.
@@ -67,6 +83,10 @@ export const refineDetailsWithSpeech = async (
     currentDetails: AnalyzedIssueData,
     speechTranscript: string
 ): Promise<AnalyzedIssueData> => {
+    if (!ai) {
+        throw new Error("AI features require an API key. Please configure your Gemini API key.");
+    }
+    
     const prompt = `
         You are an AI assistant for "Civic Lens". Your task is to refine an existing issue report based on new information provided by the user via speech.
 

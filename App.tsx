@@ -27,6 +27,7 @@ function App() {
     const [issues, setIssues] = useState<Issue[]>(mockIssues);
     const [selectedIssue, setSelectedIssue] = useState<Issue | null>(null);
     const [newlyUnlockedBadges, setNewlyUnlockedBadges] = useState<Badge[]>([]);
+    const [isWin95Theme, setIsWin95Theme] = useState(false);
 
     // Modal states
     const [isNewIssueModalOpen, setIsNewIssueModalOpen] = useState(false);
@@ -121,9 +122,13 @@ function App() {
 
     return (
         <>
-            <GlobalStyles />
-            <div className="bg-gray-900 text-white h-screen w-screen flex flex-col overflow-hidden">
-                <Header onProfileClick={() => setIsProfileModalOpen(true)} />
+            <GlobalStyles isWin95Theme={isWin95Theme} />
+            <div className={isWin95Theme ? "win95-theme" : "bg-gray-900 text-white h-screen w-screen flex flex-col overflow-hidden"}>
+                <Header 
+                    onProfileClick={() => setIsProfileModalOpen(true)}
+                    isWin95Theme={isWin95Theme}
+                    onToggleTheme={() => setIsWin95Theme(!isWin95Theme)}
+                />
 
                 <main className="flex-grow relative">
                     {/* Layer 1: Map Container */}
