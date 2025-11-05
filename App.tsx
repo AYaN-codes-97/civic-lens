@@ -152,8 +152,15 @@ function App() {
                         <div className="absolute top-16 right-4 w-full max-w-sm">
                             {location && (
                                 <div className="space-y-4 pointer-events-auto">
-                                    <SuggestionSection location={location as GeolocationCoordinates} onSuggestionClick={(text) => alert(`Suggestion clicked: "${text}". This could pre-fill the new issue form.`)} />
-                                    <button onClick={() => setIsARViewOpen(true)} className="w-full flex items-center justify-center gap-2 bg-gray-800/50 hover:bg-gray-700/70 backdrop-blur-sm p-3 rounded-lg shadow-lg transition-colors">
+                                    <SuggestionSection 
+                                        location={location as GeolocationCoordinates} 
+                                        onSuggestionClick={(text) => alert(`Suggestion clicked: "${text}". This could pre-fill the new issue form.`)}
+                                        isWin95Theme={isWin95Theme}
+                                    />
+                                    <button 
+                                        onClick={() => setIsARViewOpen(true)} 
+                                        className={isWin95Theme ? "w-full win95-btn flex items-center justify-center gap-2 p-3" : "w-full flex items-center justify-center gap-2 bg-gray-800/50 hover:bg-gray-700/70 backdrop-blur-sm p-3 rounded-lg shadow-lg transition-colors"}
+                                    >
                                         <EyeIcon className="w-5 h-5" />
                                         <span>AR View</span>
                                     </button>
@@ -169,6 +176,7 @@ function App() {
                         onClose={() => setSelectedIssue(null)}
                         onVote={handleVote}
                         hasVoted={user.votedIssueIds.has(selectedIssue.id)}
+                        isWin95Theme={isWin95Theme}
                     />
                 )}
 

@@ -9,9 +9,53 @@ interface IssueDetailsCardProps {
     onClose: () => void;
     onVote: (issueId: string) => void;
     hasVoted: boolean;
+    isWin95Theme?: boolean;
 }
 
-export const IssueDetailsCard: React.FC<IssueDetailsCardProps> = ({ issue, onClose, onVote, hasVoted }) => {
+export const IssueDetailsCard: React.FC<IssueDetailsCardProps> = ({ issue, onClose, onVote, hasVoted, isWin95Theme = false }) => {
+    if (isWin95Theme) {
+        return (
+            <div className="absolute bottom-0 left-0 right-0 z-30 p-4 animate-slide-up">
+                <div className="win95-window w-full max-w-4xl mx-auto max-h-[75vh] flex flex-col">
+                    <div className="win95-titlebar">
+                        <div className="win95-titlebar-text">{issue.title}</div>
+                        <div className="win95-control-btns">
+                            <button onClick={onClose} className="win95-control-btn">×</button>
+                        </div>
+                    </div>
+                    <div className="p-4 overflow-y-auto bg-c0c0c0" style={{ background: '#c0c0c0' }}>
+                        <div className="mb-3">
+                            <p className="text-xs mb-2"><strong>Category:</strong> {issue.category}</p>
+                            <p className="text-xs mb-3">{issue.description}</p>
+                            <div className="flex items-center gap-4 mb-3">
+                                <button 
+                                    onClick={() => onVote(issue.id)} 
+                                    disabled={hasVoted}
+                                    className="win95-btn text-xs"
+                                >
+                                    ▲ {issue.votes} votes
+                                </button>
+                                <span className="text-xs">
+                                    {new Date(issue.createdAt).toLocaleDateString()}
+                                </span>
+                            </div>
+                        </div>
+                        {issue.mediaUrls.length > 0 && (
+                            <div className="mb-3">
+                                <p className="text-xs font-bold mb-2">Media:</p>
+                                <div className="grid grid-cols-2 gap-2">
+                                    {issue.mediaUrls.map((url, index) => (
+                                        <img key={index} src={url} alt={`issue media ${index+1}`} className="w-full object-cover aspect-video win95-inset" />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    
     return (
         <div className="absolute bottom-0 left-0 right-0 z-30 p-4 animate-slide-up">
             <div className="bg-gray-800 rounded-2xl shadow-2xl w-full max-w-4xl mx-auto max-h-[75vh] flex flex-col">

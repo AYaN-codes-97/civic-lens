@@ -5,9 +5,10 @@ import type { GeolocationCoordinates, GroundingChunk } from '../types';
 interface SuggestionSectionProps {
     location: GeolocationCoordinates;
     onSuggestionClick: (suggestionText: string) => void;
+    isWin95Theme?: boolean;
 }
 
-export const SuggestionSection: React.FC<SuggestionSectionProps> = ({ location, onSuggestionClick }) => {
+export const SuggestionSection: React.FC<SuggestionSectionProps> = ({ location, onSuggestionClick, isWin95Theme = false }) => {
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [groundingChunks, setGroundingChunks] = useState<GroundingChunk[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -24,6 +25,35 @@ export const SuggestionSection: React.FC<SuggestionSectionProps> = ({ location, 
 
         fetchSuggestions();
     }, [location]);
+
+    if (isWin95Theme) {
+        return (
+            <div className="win95-window p-1">
+                <div className="win95-titlebar">
+                    <div className="win95-titlebar-text">What to look for nearby?</div>
+                </div>
+                <div className="win95-inset p-3" style={{ minHeight: '100px' }}>
+                    {isLoading ? (
+                        <div className="flex justify-center items-center h-24">
+                            <div className="text-xs">Loading...</div>
+                        </div>
+                    ) : (
+                        <div className="space-y-2">
+                            {suggestions.map((text, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => onSuggestionClick(text)}
+                                    className="win95-btn w-full text-left text-xs"
+                                >
+                                    {text}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-gray-800/50 backdrop-blur-sm p-4 rounded-lg shadow-lg">
